@@ -8,7 +8,13 @@ lazy val commonSettings = Seq(
   scalacOptions ++= Seq("-deprecation", "-feature", "-Wnonunit-statement"),
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-effect" % "3.7.0"
-  )
+  ),
+  initialCommands :=
+    """
+      |import cats.effect.IO
+      |import cats.effect.unsafe.implicits.global
+      |import cats.syntax._
+    """.stripMargin
 )
 
 lazy val core = project.in(file("core"))
@@ -41,6 +47,7 @@ lazy val launcher = project.in(file("launcher"))
 lazy val root = project
   .in(file("."))
   .settings(
+    commonSettings,
     name := "jvm-games",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
