@@ -22,13 +22,21 @@ lazy val numberGuesser = project
   )
   .dependsOn(core)
 
+lazy val ticTacToe = project
+  .in(file("games/tic-tac-toe"))
+  .settings(commonSettings,
+    name := "tic-tac-toe",
+    version := "0.1.0-SNAPSHOT"
+  )
+  .dependsOn(core)
+
 lazy val launcher = project.in(file("launcher"))
   .settings(
     commonSettings,
     name := "launcher",
     Compile / mainClass := Some("org.jvmgames.launcher.Launcher")
   )
-  .dependsOn(core, numberGuesser)
+  .dependsOn(core, numberGuesser, ticTacToe)
 
 lazy val root = project
   .in(file("."))
@@ -38,4 +46,4 @@ lazy val root = project
     scalaVersion := scala3Version,
     libraryDependencies += "org.scalameta" %% "munit" % "1.2.4" % Test
   )
-  .dependsOn(core, numberGuesser, launcher)
+  .dependsOn(core, numberGuesser, launcher, ticTacToe)
