@@ -28,6 +28,9 @@ jobs:
           java-version: "25"
           cache: sbt
 
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Check Scala formatting
         run: sbt -v scalafmtSbtCheck scalafmtCheckAll
 
@@ -45,6 +48,9 @@ jobs:
           distribution: corretto
           java-version: "25"
           cache: sbt
+
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
 
       - name: Compile and test all projects
         run: sbt -v core/test numberGuesser/test ticTacToe/test launcher/test root/test

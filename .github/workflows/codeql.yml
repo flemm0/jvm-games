@@ -32,6 +32,9 @@ jobs:
           java-version: "25"
           cache: sbt
 
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
