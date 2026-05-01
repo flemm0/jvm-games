@@ -8,8 +8,16 @@ import org.jvmgames.java.numberguesser.NumberGuesser4J
 import org.jvmgames.scala.numberguesser.NumberGuesser4S
 import org.jvmgames.scala.tictactoe.TicTacToe4S
 
-
 object Launcher extends IOApp.Simple:
+
+  private val banner: String =
+    """
+      |       _ __     ____  __    ____
+      |      | |\ \   / /  \/  |  / ___| __ _ _ __ ___   ___  ___
+      |   _  | | \ \ / /| |\/| | | |  _ / _` | '_ ` _ \ / _ \/ __|
+      |  | |_| |  \ V / | |  | | | |_| | (_| | | | | | |  __/\__ \
+      |   \___/    \_/  |_|  |_|  \____|\__,_|_| |_| |_|\___||___/
+      |""".stripMargin.stripPrefix("\n").stripSuffix("\n")
 
   val gameRegistry: List[Game] = List(
     new NumberGuesser4J(),
@@ -19,11 +27,11 @@ object Launcher extends IOApp.Simple:
 
   override def run: IO[Unit] =
     IO.println("Welcome to JVM Games!🎮") *>
-    mainMenu
+      mainMenu
 
   def mainMenu: IO[Unit] =
     for
-      _ <- IO.println("\n=== JVM Games ===")
+      _ <- IO.print(s"${banner}\n\n")
       _ <- gameRegistry.zipWithIndex.traverse_ { case (game, idx) =>
         IO.println(s"  [${idx + 1}] ${game.name} — ${game.description}")
       }
@@ -36,9 +44,9 @@ object Launcher extends IOApp.Simple:
         case n if n > 0 && n <= gameRegistry.length =>
           val selectedGame = gameRegistry(n - 1)
           IO.println(s"\nStarting ${selectedGame.name}...\n") *>
-          IO.blocking(selectedGame.run()) *>
-          mainMenu // Return to main menu after the game ends
+            IO.blocking(selectedGame.run()) *>
+            mainMenu // Return to main menu after the game ends
         case _ =>
           IO.println("Invalid selection. Please try again.") *>
-          mainMenu
+            mainMenu
     yield ()
