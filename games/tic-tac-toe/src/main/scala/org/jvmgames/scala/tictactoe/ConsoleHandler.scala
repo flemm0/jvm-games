@@ -2,9 +2,10 @@ package org.jvmgames.scala.tictactoe
 
 import cats.effect.IO
 import cats.effect.std.Console
+import scala.concurrent.duration._
 
 import org.jvmgames.scala.tictactoe.Domain._
-import org.jvmgames.scala.tictactoe.GameLogic.{validateInput, identifyWinner}
+import org.jvmgames.scala.tictactoe.GameLogic.{validateInput, identifyWinner, computerMove}
 
 object ConsoleHandler:
 
@@ -30,15 +31,22 @@ object ConsoleHandler:
         case _   => Console[IO].println("Invalid input. Please enter 'X' or 'O'.") *> chooseMark
       }
 
-  def promptForMove(player: Mark, board: Board): IO[Int] =
-    Console[IO].println(s"Player $player, enter your move (1-9):") *>
-      Console[IO].readLine.flatMap { input =>
-        validateInput(input.toIntOption, board) match
-          case Right(pos) => IO.pure(pos)
-          case Left(error) =>
-            Console[IO].println(error) *>
-              promptForMove(player, board)
-      }
+  def promptForMove(player: Player, board: Board): IO[Int] =
+    Console[IO].println(s"Player ${player.mark}, enter your move (1-9):") *>
+      (player.kind match
+        case PlayerKind.Computer =>
+          IO.sleep(2.seconds) *>
+          IO.pure(computerMove(board))
+        case PlayerKind.Human =>
+          Console[IO].readLine.flatMap { input =>
+            validateInput(input.toIntOption, board) match
+              case Right(pos) => IO.pure(pos)
+              case Left(error) =>
+                Console[IO].println(error) *>
+                promptForMove(player, board)
+            }
+
+      )
 
   def displayBoard(board: Board): IO[Unit] =
     val boardStr = s"""

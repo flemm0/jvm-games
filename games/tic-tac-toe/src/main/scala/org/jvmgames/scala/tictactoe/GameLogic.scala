@@ -50,6 +50,20 @@ object GameLogic:
       case m if m.exists(_._2 == 3) => m.find(_._2 == 3).get._1 
     }.headOption
 
+  def computerMove(board: Board): Int =
+    val openPositions = board.toCharList
+      .zipWithIndex
+      .filter(_._1 == " ")
+      .map(_._2 + 1)
+    scala.util.Random.shuffle(openPositions).head
+
+  def nextPlayer(currentPlayer: Player): Player =
+    currentPlayer match
+      case Player(PlayerKind.Human, Mark.X) => Player(PlayerKind.Computer, Mark.O)
+      case Player(PlayerKind.Human, Mark.O) => Player(PlayerKind.Computer, Mark.X)
+      case Player(PlayerKind.Computer, Mark.X) => Player(PlayerKind.Human, Mark.O)
+      case Player(PlayerKind.Computer, Mark.O) => Player(PlayerKind.Human, Mark.X)
+
   def identifyWinner(board: Board): Option[Mark] =
     threeInDiagonal(board).orElse(threeInARow(board))
 

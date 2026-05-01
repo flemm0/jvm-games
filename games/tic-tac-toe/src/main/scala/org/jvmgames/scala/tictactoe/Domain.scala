@@ -2,8 +2,13 @@ package org.jvmgames.scala.tictactoe
 
 object Domain:
 
+  enum PlayerKind:
+    case Human, Computer
+
   enum Mark:
     case X, O
+  
+  final case class Player(kind: PlayerKind, mark: Mark)
   
   case class Row(items: Tuple3[Option[Mark], Option[Mark], Option[Mark]]):
     def toList: List[Option[Mark]] = items
