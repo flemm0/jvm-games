@@ -7,6 +7,7 @@ The launcher currently includes:
 
 - Number Guesser, implemented in Java
 - Number Guesser, implemented in Scala
+- Tic Tac Toe, implemented in Java
 - Tic Tac Toe, implemented in Scala
 
 ## Project Layout
@@ -14,7 +15,7 @@ The launcher currently includes:
 ```text
 core/                  Shared game interface
 games/number-guesser/  Java and Scala number guessing games
-games/tic-tac-toe/     Scala Tic Tac Toe game
+games/tic-tac-toe/     Java and Scala Tic Tac Toe games
 launcher/              Console menu for choosing and running games
 ```
 

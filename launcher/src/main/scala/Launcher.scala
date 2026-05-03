@@ -4,8 +4,10 @@ import cats.effect.{IO, IOApp, ExitCode}
 import cats.syntax.all.*
 import cats.effect.std.Console
 import org.jvmgames.core.Game
+
 import org.jvmgames.java.numberguesser.NumberGuesser4J
 import org.jvmgames.scala.numberguesser.NumberGuesser4S
+import org.jvmgames.java.tictactoe.TicTacToe4J
 import org.jvmgames.scala.tictactoe.TicTacToe4S
 
 object Launcher extends IOApp.Simple:
@@ -22,6 +24,7 @@ object Launcher extends IOApp.Simple:
   val gameRegistry: List[Game] = List(
     new NumberGuesser4J(),
     NumberGuesser4S,
+    new TicTacToe4J(),
     TicTacToe4S
   )
 
