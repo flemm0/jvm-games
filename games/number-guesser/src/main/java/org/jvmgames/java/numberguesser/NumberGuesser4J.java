@@ -34,7 +34,7 @@ class GuessingGame {
         }
     }
 
-    public boolean isOver() { return isGameOver || guesses >= maxGuesses - 1; }
+    public boolean isOver() { return isGameOver || guesses >= maxGuesses; }
     public boolean isWon() { return isGameOver && guesses <= maxGuesses; }
     public int getBound() { return bound; }
     public int getSecretNumber() { return secretNumber; }
@@ -73,8 +73,8 @@ public class NumberGuesser4J implements Game {
       I am thinking of a number between 1 and %d. Can you guess it?
       """.formatted(game.getBound()));
 
-        int currentGuess = inputHandler.handleGuess(scanner, game);
         while (!game.isOver()) {
+            int currentGuess = inputHandler.handleGuess(scanner, game);
             GuessResult result = game.guess(currentGuess);
             if (result == GuessResult.TOO_LOW) {
                 System.out.println("Too low! Try again.");
@@ -84,7 +84,6 @@ public class NumberGuesser4J implements Game {
                 break;
             }
             System.out.println("Remaining guesses: " + (game.getMaxGuesses() - game.getGuessCount()));
-            currentGuess = inputHandler.handleGuess(scanner, game);
         }
         if (game.isWon()) {
             System.out.println(
